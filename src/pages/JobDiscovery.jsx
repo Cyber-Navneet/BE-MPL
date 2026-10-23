@@ -10,7 +10,7 @@ import JobDetailsDrawer from '../components/jobs/JobDetailsDrawer.jsx'
 import ApplyConfirmDialog from '../components/jobs/ApplyConfirmDialog.jsx'
 import { JOBS } from '../data/jobs.js'
 import { useJobDiscovery } from '../hooks/useJobDiscovery.js'
-import { useStoredIds } from '../hooks/useStoredIds.js'
+import { useJobActions } from '../hooks/useJobActions.js'
 import { SORT_OPTIONS, uniqueValues } from '../utils/jobUtils.js'
 
 const LOCATIONS = uniqueValues(JOBS, (job) => job.location)
@@ -19,8 +19,7 @@ const SKILLS = uniqueValues(JOBS, (job) => job.skills)
 export default function JobDiscovery() {
   const { notify } = useOutletContext()
   const discovery = useJobDiscovery(JOBS)
-  const saved = useStoredIds('talentforge.savedJobs')
-  const applied = useStoredIds('talentforge.appliedJobs')
+  const jobActions = useJobActions(notify)
 
   const [selectedJobId, setSelectedJobId] = useState(null)
   const [filtersOpen, setFiltersOpen] = useState(false)
@@ -33,16 +32,9 @@ export default function JobDiscovery() {
   const closeFilters = useCallback(() => setFiltersOpen(false), [])
   const cancelApply = useCallback(() => setConfirmOpen(false), [])
 
-  const toggleSave = (job) => {
-    const wasSaved = saved.has(job.id)
-    saved.toggle(job.id)
-    notify(wasSaved ? `Removed ${job.title} from saved jobs.` : `Saved ${job.title}.`, wasSaved ? 'info' : 'success')
-  }
-
   const confirmApply = () => {
-    applied.add(selectedJob.id)
+    jobActions.apply(selectedJob)
     setConfirmOpen(false)
-    notify(`Application recorded for ${selectedJob.title} at ${selectedJob.company} (demo).`, 'success')
   }
 
   return (
@@ -97,10 +89,10 @@ export default function JobDiscovery() {
                   <li key={job.id}>
                     <JobCard
                       job={job}
-                      isSaved={saved.has(job.id)}
-                      isApplied={applied.has(job.id)}
+                      isSaved={jobActions.isSaved(job.id)}
+                      isApplied={jobActions.isApplied(job.id)}
                       onOpen={() => setSelectedJobId(job.id)}
-                      onToggleSave={() => toggleSave(job)}
+                      onToggleSave={() => jobActions.toggleSave(job)}
                     />
                   </li>
                 ))}
@@ -138,10 +130,10 @@ export default function JobDiscovery() {
       {selectedJob && (
         <JobDetailsDrawer
           job={selectedJob}
-          isSaved={saved.has(selectedJob.id)}
-          isApplied={applied.has(selectedJob.id)}
+          isSaved={jobActions.isSaved(selectedJob.id)}
+          isApplied={jobActions.isApplied(selectedJob.id)}
           confirmOpen={confirmOpen}
-          onToggleSave={() => toggleSave(selectedJob)}
+          onToggleSave={() => jobActions.toggleSave(selectedJob)}
           onApply={() => setConfirmOpen(true)}
           onClose={closeDetails}
         />

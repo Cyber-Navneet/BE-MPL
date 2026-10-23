@@ -83,6 +83,14 @@ export default function JobDetailsDrawer({ job, isSaved, isApplied, confirmOpen,
           <Section title="Required skills">
             <SkillList skills={job.skills} />
           </Section>
+          {job.matchedSkills && (
+            <Section title="Your resume vs. this job">
+              <p>
+                Your analysed resume covers {job.matchedSkills.length} of {job.skills.length} required skills.
+                {job.missingSkills.length > 0 && ` Not found in your resume: ${job.missingSkills.join(', ')}.`}
+              </p>
+            </Section>
+          )}
           <Section title="About the role">
             <p>{job.description}</p>
           </Section>
