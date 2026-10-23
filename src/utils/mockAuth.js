@@ -5,7 +5,7 @@
 export const ROLES = ['student', 'recruiter']
 
 const DEMO_ACCOUNTS = [
-  { role: 'student', name: 'Demo Student', email: 'student@talentforge.demo', password: 'Student@123' },
+  { role: 'student', name: 'Aarav Sharma', email: 'student@talentforge.demo', password: 'Student@123' },
   { role: 'recruiter', name: 'Demo Recruiter', email: 'recruiter@talentforge.demo', password: 'Recruiter@123' },
 ]
 

@@ -1,11 +1,13 @@
 import { Route, Routes } from 'react-router-dom'
 import MainLayout from './layouts/MainLayout.jsx'
 import AuthLayout from './layouts/AuthLayout.jsx'
+import AppLayout from './layouts/AppLayout.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
 import Home from './pages/Home.jsx'
 import LoginPage from './pages/LoginPage.jsx'
 import SignupPage from './pages/SignupPage.jsx'
 import Dashboard from './pages/Dashboard.jsx'
+import JobDiscovery from './pages/JobDiscovery.jsx'
 import NotFound from './pages/NotFound.jsx'
 
 export default function App() {
@@ -20,7 +22,10 @@ export default function App() {
         <Route path="signup" element={<SignupPage />} />
       </Route>
       <Route element={<ProtectedRoute />}>
-        <Route path="dashboard" element={<Dashboard />} />
+        <Route element={<AppLayout />}>
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="jobs" element={<JobDiscovery />} />
+        </Route>
       </Route>
     </Routes>
   )

@@ -21,6 +21,10 @@
   --color-segment: #edf2f8;
   --color-mint: #2dd4bf;
   --color-danger: #dc2626;
+
+  /* Signed-in app (dashboard, job discovery) */
+  --color-canvas: #f5f8fc;
+  --color-selected: #e1eeff;
 }
 
 html {
