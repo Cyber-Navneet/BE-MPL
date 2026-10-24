@@ -25,6 +25,15 @@
   /* Signed-in app (dashboard, job discovery) */
   --color-canvas: #f5f8fc;
   --color-selected: #e1eeff;
+
+  /* Student home dashboard */
+  --color-home-blue: #2563eb;
+  --color-home-ink: #183153;
+  --color-home-muted: #667a98;
+  --color-home-bg: #f4f7fb;
+  --color-home-tint: #eaf1ff;
+  --color-home-border: #d7e3f5;
+  --color-home-gradient-from: #173c8a;
 }
 
 html {
