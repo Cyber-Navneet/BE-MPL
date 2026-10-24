@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import { analyzeResume } from '../utils/atsAnalyzer.js'
+import { resumeSkillsStore } from '../utils/applicationStore.js'
 import { ResumeParseError, extractResumeText, validateResumeFile } from '../utils/resumeParser.js'
 
 // Holds the selected resume and its analysis. Selecting, replacing or removing a file clears
@@ -14,6 +15,7 @@ export function useResumeAnalysis() {
 
   const resetAnalysis = () => {
     runId.current += 1
+    resumeSkillsStore.write([])
     setStatus('idle')
     setResult(null)
     setAnalysisError('')
@@ -43,6 +45,8 @@ export function useResumeAnalysis() {
       const text = await extractResumeText(resume.file)
       const analysis = analyzeResume(text)
       if (id !== runId.current) return null
+      // Shared with the assessment builder so new assessments match the resume's skills.
+      resumeSkillsStore.write(analysis.skills)
       setResult(analysis)
       setStatus('done')
       return analysis

@@ -1,21 +1,23 @@
 import { useStoredIds } from './useStoredIds.js'
+import { applicationsStore, applyToJob } from '../utils/applicationStore.js'
 
-// Saved and applied job state (persisted in localStorage) with user feedback via `notify`.
+// Saved jobs and applications (persisted in localStorage) with user feedback via `notify`.
+// Applying also assigns the skill-based assessment for that job.
 export function useJobActions(notify) {
   const saved = useStoredIds('talentforge.savedJobs')
-  const applied = useStoredIds('talentforge.appliedJobs')
+  const applications = applicationsStore.useStore()
 
   return {
     isSaved: saved.has,
-    isApplied: applied.has,
+    isApplied: (jobId) => applications.some((app) => app.jobId === jobId),
     toggleSave: (job) => {
       const wasSaved = saved.has(job.id)
       saved.toggle(job.id)
       notify(wasSaved ? `Removed ${job.title} from saved jobs.` : `Saved ${job.title}.`, wasSaved ? 'info' : 'success')
     },
     apply: (job) => {
-      applied.add(job.id)
-      notify(`Application recorded for ${job.title} at ${job.company} (demo).`, 'success')
+      applyToJob(job)
+      notify(`Application recorded for ${job.title} at ${job.company} (demo). A skills assessment is waiting in Applications.`, 'success')
     },
   }
 }

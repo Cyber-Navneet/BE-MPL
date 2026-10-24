@@ -6,8 +6,8 @@ export const SIDEBAR_NAV = [
   { label: 'My Profile', icon: User },
   { label: 'Resume Analysis', icon: FileText, to: '/resume' },
   { label: 'Job Discovery', icon: Search, to: '/jobs' },
-  { label: 'Applications', icon: Send },
-  { label: 'Assessment', icon: ClipboardList },
+  { label: 'Applications', icon: Send, to: '/applications' },
+  { label: 'Assessments', icon: ClipboardList, to: '/assessments' },
   { label: 'Settings', icon: Settings },
 ]
 
@@ -15,5 +15,5 @@ export const TOP_NAV = [
   { label: 'Jobs', to: '/jobs' },
   { label: 'Profile' },
   { label: 'Resume', to: '/resume' },
-  { label: 'Assessment' },
+  { label: 'Assessment', to: '/assessments' },
 ]

@@ -3,7 +3,7 @@ import { CircleCheck, Info, X } from 'lucide-react'
 
 const DISMISS_AFTER_MS = 3500
 
-// A single auto-dismissing notification. `toast` is { id, message, tone: 'success' | 'info' } or null.
+// A single auto-dismissing notification, placed clear of the assessment timer and drawer buttons. `toast` is { id, message, tone: 'success' | 'info' } or null.
 export default function Toast({ toast, onDismiss }) {
   useEffect(() => {
     if (!toast) return
@@ -14,7 +14,7 @@ export default function Toast({ toast, onDismiss }) {
   const Icon = toast?.tone === 'success' ? CircleCheck : Info
 
   return (
-    <div aria-live="polite" className="pointer-events-none fixed inset-x-4 top-20 z-[70] flex justify-center sm:inset-x-auto sm:right-6">
+    <div aria-live="polite" className="pointer-events-none fixed inset-x-4 top-[8.5rem] z-[70] flex justify-center sm:inset-x-auto sm:top-20 sm:left-1/2 sm:w-96 sm:-translate-x-1/2">
       {toast && (
         <div
           role="status"
