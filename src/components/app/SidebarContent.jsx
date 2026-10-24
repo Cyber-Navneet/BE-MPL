@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom'
-import { SIDEBAR_NAV } from '../../data/appNav.js'
+import { RECRUITER_SIDEBAR_NAV, SIDEBAR_NAV } from '../../data/appNav.js'
+import { useAuth } from '../../hooks/useAuth.js'
 import { cn } from '../../utils/cn.js'
 
 const itemClasses =
@@ -7,11 +8,14 @@ const itemClasses =
 
 // Navigation list shared by the desktop sidebar and the mobile drawer.
 export default function SidebarContent({ onComingSoon, onNavigate }) {
+  const { user } = useAuth()
+  const items = user?.role === 'recruiter' ? RECRUITER_SIDEBAR_NAV : SIDEBAR_NAV
+
   return (
     <div className="flex h-full flex-col px-3 py-6">
       <nav aria-label="Dashboard">
         <ul className="space-y-1">
-          {SIDEBAR_NAV.map(({ label, icon: Icon, to }) => (
+          {items.map(({ label, icon: Icon, to }) => (
             <li key={label}>
               {to ? (
                 <NavLink
