@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import MainLayout from './layouts/MainLayout.jsx'
 import AuthLayout from './layouts/AuthLayout.jsx'
 import AppLayout from './layouts/AppLayout.jsx'
@@ -19,6 +19,11 @@ import ApplicationDetail from './pages/ApplicationDetail.jsx'
 import Assessments from './pages/Assessments.jsx'
 import AssessmentPage from './pages/AssessmentPage.jsx'
 import NotFound from './pages/NotFound.jsx'
+import RecruiterRoute from './components/RecruiterRoute.jsx'
+import MyJobs from './pages/recruiter/MyJobs.jsx'
+import JobEditor from './pages/recruiter/JobEditor.jsx'
+import RecruiterJobDetails from './pages/recruiter/RecruiterJobDetails.jsx'
+import JobPipelinePage from './pages/recruiter/JobPipelinePage.jsx'
 
 export default function App() {
   return (
@@ -46,6 +51,14 @@ export default function App() {
           <Route path="applications/:applicationId" element={<ApplicationDetail />} />
           <Route path="assessments" element={<Assessments />} />
           <Route path="assessments/:assessmentId" element={<AssessmentPage />} />
+          <Route path="recruiter" element={<RecruiterRoute />}>
+            <Route index element={<Navigate to="jobs" replace />} />
+            <Route path="jobs" element={<MyJobs />} />
+            <Route path="jobs/new" element={<JobEditor />} />
+            <Route path="jobs/:jobId" element={<RecruiterJobDetails />} />
+            <Route path="jobs/:jobId/edit" element={<JobEditor />} />
+            <Route path="jobs/:jobId/pipeline" element={<JobPipelinePage />} />
+          </Route>
         </Route>
       </Route>
     </Routes>

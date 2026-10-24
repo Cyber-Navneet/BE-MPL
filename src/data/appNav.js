@@ -15,7 +15,7 @@ export const SIDEBAR_NAV = [
 export const RECRUITER_SIDEBAR_NAV = [
   { label: 'Dashboard', icon: House, to: '/dashboard' },
   { label: 'Company Profile', icon: User },
-  { label: 'My Jobs', icon: WandSparkles },
+  { label: 'My Jobs', icon: WandSparkles, to: '/recruiter/jobs' },
   { label: 'Applications', icon: Send, to: '/applications' },
   { label: 'Assessment', icon: ClipboardList },
   { label: 'Settings', icon: Settings },

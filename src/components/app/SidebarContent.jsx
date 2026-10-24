@@ -9,7 +9,7 @@ const itemClasses =
 // Navigation list shared by the desktop sidebar and the mobile drawer.
 export default function SidebarContent({ onComingSoon, onNavigate }) {
   const { user } = useAuth()
-  const items = user.role === 'recruiter' ? RECRUITER_SIDEBAR_NAV : SIDEBAR_NAV
+  const items = user?.role === 'recruiter' ? RECRUITER_SIDEBAR_NAV : SIDEBAR_NAV
 
   return (
     <div className="flex h-full flex-col px-3 py-6">
