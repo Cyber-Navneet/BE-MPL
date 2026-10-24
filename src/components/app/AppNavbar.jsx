@@ -1,8 +1,7 @@
 import { useCallback, useRef, useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Bell, ChevronDown, LayoutDashboard, LogOut, Menu, Sparkles } from 'lucide-react'
 import BrandLogo from '../BrandLogo.jsx'
-import { TOP_NAV } from '../../data/appNav.js'
 import { useAuth } from '../../hooks/useAuth.js'
 import { useDismiss } from '../../hooks/useDismiss.js'
 import { cn } from '../../utils/cn.js'
@@ -111,9 +110,8 @@ function UserMenu({ user, onSignOut }) {
   )
 }
 
-export default function AppNavbar({ onOpenMenu, onComingSoon }) {
+export default function AppNavbar({ onOpenMenu }) {
   const { user, signOut } = useAuth()
-  const linkClasses = cn('rounded-md px-1 py-1 text-[15px] text-navy hover:text-primary', focusRing)
 
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-white">
@@ -127,20 +125,6 @@ export default function AppNavbar({ onOpenMenu, onComingSoon }) {
           <Menu size={22} aria-hidden="true" />
         </button>
         <BrandLogo boxed />
-
-        <nav aria-label="Primary" className="ml-10 hidden items-center gap-7 lg:flex">
-          {TOP_NAV.map(({ label, to }) =>
-            to ? (
-              <NavLink key={label} to={to} className={({ isActive }) => cn(linkClasses, isActive && 'text-primary')}>
-                {label}
-              </NavLink>
-            ) : (
-              <button key={label} type="button" onClick={() => onComingSoon(label)} className={linkClasses}>
-                {label}
-              </button>
-            ),
-          )}
-        </nav>
 
         <div className="ml-auto flex items-center gap-1 sm:gap-3">
           <span className="hidden rounded-full bg-selected px-3 py-1 text-xs font-semibold text-primary sm:inline">

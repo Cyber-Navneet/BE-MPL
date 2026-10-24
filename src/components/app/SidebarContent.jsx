@@ -5,7 +5,7 @@ import { cn } from '../../utils/cn.js'
 const itemClasses =
   'flex h-11 w-full items-center gap-3 rounded-lg px-4 text-[15px] text-navy transition-colors hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-primary'
 
-// Navigation list plus the AI Credits card; shared by the desktop sidebar and the mobile drawer.
+// Navigation list shared by the desktop sidebar and the mobile drawer.
 export default function SidebarContent({ onComingSoon, onNavigate }) {
   return (
     <div className="flex h-full flex-col px-3 py-6">
@@ -34,12 +34,6 @@ export default function SidebarContent({ onComingSoon, onNavigate }) {
           ))}
         </ul>
       </nav>
-
-      <div className="mt-auto rounded-xl bg-linear-to-br from-[#e6f0ff] to-[#e3f8ef] p-4">
-        <p className="text-xs font-semibold text-navy">AI Credits</p>
-        <p className="mt-1.5 text-3xl font-bold tracking-tight text-primary">847</p>
-        <p className="mt-1.5 text-xs text-muted">Resets in 12 days</p>
-      </div>
     </div>
   )
 }
