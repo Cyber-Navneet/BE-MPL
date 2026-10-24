@@ -18,7 +18,7 @@ export default function AppLayout() {
 
   return (
     <div className="min-h-screen bg-canvas">
-      <AppNavbar onOpenMenu={() => setMenuOpen(true)} onComingSoon={showComingSoon} />
+      <AppNavbar onOpenMenu={() => setMenuOpen(true)} />
 
       <div className="mx-auto flex w-full max-w-[1440px]">
         <aside className="sticky top-16 hidden h-[calc(100vh-4rem)] w-64 shrink-0 border-r border-line bg-white lg:block">

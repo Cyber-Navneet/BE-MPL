@@ -10,10 +10,3 @@ export const SIDEBAR_NAV = [
   { label: 'Assessments', icon: ClipboardList, to: '/assessments' },
   { label: 'Settings', icon: Settings },
 ]
-
-export const TOP_NAV = [
-  { label: 'Jobs', to: '/jobs' },
-  { label: 'Profile' },
-  { label: 'Resume', to: '/resume' },
-  { label: 'Assessment', to: '/assessments' },
-]
