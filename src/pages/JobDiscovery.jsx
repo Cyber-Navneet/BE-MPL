@@ -1,41 +1,48 @@
-import { useCallback, useState } from 'react'
-import { useOutletContext } from 'react-router-dom'
+import { useCallback, useMemo, useState } from 'react'
+import { useNavigate, useOutletContext } from 'react-router-dom'
 import JobToolbar from '../components/jobs/JobToolbar.jsx'
 import AIRecommendationBanner from '../components/jobs/AIRecommendationBanner.jsx'
 import SelectField from '../components/jobs/SelectField.jsx'
 import JobCard from '../components/jobs/JobCard.jsx'
 import EmptyState from '../components/jobs/EmptyState.jsx'
 import JobFiltersPanel from '../components/jobs/JobFiltersPanel.jsx'
-import JobDetailsDrawer from '../components/jobs/JobDetailsDrawer.jsx'
-import ApplyConfirmDialog from '../components/jobs/ApplyConfirmDialog.jsx'
 import { JOBS } from '../data/jobs.js'
 import { useJobDiscovery } from '../hooks/useJobDiscovery.js'
 import { useJobActions } from '../hooks/useJobActions.js'
+import { applicationsStore } from '../utils/applicationStore.js'
 import { SORT_OPTIONS, uniqueValues } from '../utils/jobUtils.js'
+import { analyzeMatch } from '../utils/matchScore.js'
+import { profileStore } from '../utils/profileStore.js'
 
 const LOCATIONS = uniqueValues(JOBS, (job) => job.location)
 const SKILLS = uniqueValues(JOBS, (job) => job.skills)
 
 export default function JobDiscovery() {
   const { notify } = useOutletContext()
-  const discovery = useJobDiscovery(JOBS)
+  const navigate = useNavigate()
+  const profile = profileStore.useStore()
+  const applications = applicationsStore.useStore()
+
+  // Match scores come from the student's current profile, and the applicant count includes
+  // their own application, so both agree with the job details page.
+  const jobs = useMemo(
+    () =>
+      JOBS.map((job) => ({
+        ...job,
+        matchScore: analyzeMatch(profile, job).score,
+        applicants: job.applicants + (applications.some((app) => app.jobId === job.id) ? 1 : 0),
+      })),
+    [profile, applications],
+  )
+  const discovery = useJobDiscovery(jobs)
   const jobActions = useJobActions(notify)
 
-  const [selectedJobId, setSelectedJobId] = useState(null)
   const [filtersOpen, setFiltersOpen] = useState(false)
-  const [confirmOpen, setConfirmOpen] = useState(false)
 
-  const selectedJob = JOBS.find((job) => job.id === selectedJobId) ?? null
   const resultCount = discovery.results.length
+  const openJob = (jobId) => navigate(`/jobs/${jobId}`)
 
-  const closeDetails = useCallback(() => setSelectedJobId(null), [])
   const closeFilters = useCallback(() => setFiltersOpen(false), [])
-  const cancelApply = useCallback(() => setConfirmOpen(false), [])
-
-  const confirmApply = () => {
-    jobActions.apply(selectedJob)
-    setConfirmOpen(false)
-  }
 
   return (
     <div className="mx-auto max-w-[1180px]">
@@ -52,7 +59,7 @@ export default function JobDiscovery() {
           onOpenFilters={() => setFiltersOpen(true)}
         />
 
-        <AIRecommendationBanner topMatch={discovery.topMatch} sort={discovery.sort} onOpenJob={setSelectedJobId} />
+        <AIRecommendationBanner topMatch={discovery.topMatch} sort={discovery.sort} onOpenJob={openJob} />
 
         <section aria-labelledby="results-heading">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
@@ -91,7 +98,7 @@ export default function JobDiscovery() {
                       job={job}
                       isSaved={jobActions.isSaved(job.id)}
                       isApplied={jobActions.isApplied(job.id)}
-                      onOpen={() => setSelectedJobId(job.id)}
+                      onOpen={() => openJob(job.id)}
                       onToggleSave={() => jobActions.toggleSave(job)}
                     />
                   </li>
@@ -125,22 +132,6 @@ export default function JobDiscovery() {
           onApply={discovery.setFilters}
           onClose={closeFilters}
         />
-      )}
-
-      {selectedJob && (
-        <JobDetailsDrawer
-          job={selectedJob}
-          isSaved={jobActions.isSaved(selectedJob.id)}
-          isApplied={jobActions.isApplied(selectedJob.id)}
-          confirmOpen={confirmOpen}
-          onToggleSave={() => jobActions.toggleSave(selectedJob)}
-          onApply={() => setConfirmOpen(true)}
-          onClose={closeDetails}
-        />
-      )}
-
-      {selectedJob && confirmOpen && (
-        <ApplyConfirmDialog job={selectedJob} onConfirm={confirmApply} onCancel={cancelApply} />
       )}
     </div>
   )

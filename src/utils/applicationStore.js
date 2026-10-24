@@ -3,10 +3,10 @@
 
 import { JOBS } from '../data/jobs.js'
 import { QUESTIONS_BY_ID } from '../data/questionBank.js'
-import { STUDENT_PROFILE } from '../data/studentProfile.js'
 import { buildAssessment } from './assessmentBuilder.js'
 import { computeResult } from './assessmentScoring.js'
 import { createLocalStore } from './localStore.js'
+import { hasResume, profileStore } from './profileStore.js'
 
 const isObject = (value) => value !== null && typeof value === 'object' && !Array.isArray(value)
 const LEGACY_APPLIED_KEY = 'talentforge.appliedJobs'
@@ -70,11 +70,46 @@ function ensureAssessment(application, now) {
             application,
             job,
             resumeSkills: resumeSkillsStore.read(),
-            profileSkills: STUDENT_PROFILE.skills,
+            profileSkills: profileStore.read().skills,
             now,
           }),
         },
   )
+}
+
+// Length of the assessment a new application to `job` would get, for the confirmation modal.
+export function previewAssessmentMinutes(job) {
+  return buildAssessment({
+    application: { id: 'preview' },
+    job,
+    resumeSkills: resumeSkillsStore.read(),
+    profileSkills: profileStore.read().skills,
+    now: 0,
+  }).durationMinutes
+}
+
+const SUBMIT_DELAY_MS = 900
+
+// Simulated "submit application" request: waits briefly, then records the application.
+// Rejects (with a user-facing message) on a duplicate or a missing resume.
+export function submitApplication(job) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (applicationsStore.read().some((app) => app.jobId === job.id)) {
+        reject(new Error('You have already applied to this job.'))
+        return
+      }
+      if (!hasResume(profileStore.read())) {
+        reject(new Error('Add your resume on My Profile before applying.'))
+        return
+      }
+      try {
+        resolve(applyToJob(job))
+      } catch {
+        reject(new Error('Could not save your application. Please try again.'))
+      }
+    }, SUBMIT_DELAY_MS)
+  })
 }
 
 export function applyToJob(job, now = Date.now()) {
@@ -145,6 +180,38 @@ export function submitAssessment(id, reason, now = Date.now()) {
       }),
     }
   })
+}
+
+// Recruiter-side stages after the assessment. Demo only: set from the demo controls on the
+// application page, never automatically.
+export const REVIEW_STAGES = {
+  under_review: 'Under Review',
+  shortlisted: 'Shortlisted',
+  rejected: 'Rejected',
+  offer: 'Offer Received',
+}
+
+// Which demo stage changes are allowed from each status.
+export const NEXT_STAGES = {
+  'Assessment Completed': ['under_review'],
+  'Under Review': ['shortlisted', 'rejected'],
+  Shortlisted: ['offer', 'rejected'],
+}
+
+// Applied → Assessment Pending → In Progress → Completed → Under Review → Shortlisted / Rejected → Offer Received.
+export function applicationStatus(application, assessment, now = Date.now()) {
+  if (application.stage && REVIEW_STAGES[application.stage]) return REVIEW_STAGES[application.stage]
+  if (!assessment) return 'Applied'
+  const status = assessmentStatus(assessment, now)
+  if (status === 'not_started') return 'Assessment Pending'
+  if (status === 'in_progress') return 'Assessment In Progress'
+  if (status === 'submitted') return 'Assessment Completed'
+  return 'Assessment Expired'
+}
+
+export function setApplicationStage(applicationId, stage) {
+  if (!REVIEW_STAGES[stage]) return
+  applicationsStore.write((apps) => apps.map((app) => (app.id === applicationId ? { ...app, stage } : app)))
 }
 
 export function addApplicationNote(applicationId, text, now = Date.now()) {

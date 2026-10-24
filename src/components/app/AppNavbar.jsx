@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Bell, ChevronDown, LayoutDashboard, LogOut, Menu, Sparkles } from 'lucide-react'
+import { Bell, ChevronDown, ClipboardList, LayoutDashboard, LogOut, Menu, Sparkles, User, UserPen } from 'lucide-react'
 import BrandLogo from '../BrandLogo.jsx'
 import { useAuth } from '../../hooks/useAuth.js'
 import { useDismiss } from '../../hooks/useDismiss.js'
@@ -18,6 +18,13 @@ const initialsOf = (name) =>
 
 const focusRing = 'focus-visible:outline-2 focus-visible:outline-primary'
 
+// Demo notifications; each links to the page it's about.
+const NOTIFICATIONS = [
+  { id: 'jobs', icon: Sparkles, text: 'New AI-matched jobs are ready for you.', time: 'Just now', to: '/jobs' },
+  { id: 'assessment', icon: ClipboardList, text: 'Finish pending assessments before their start window closes.', time: '2h ago', to: '/assessments' },
+  { id: 'profile', icon: UserPen, text: 'Add more skills to your profile to improve your match scores.', time: 'Yesterday', to: '/profile' },
+]
+
 function NotificationsMenu() {
   const [open, setOpen] = useState(false)
   const [unread, setUnread] = useState(true)
@@ -33,7 +40,7 @@ function NotificationsMenu() {
           setOpen((value) => !value)
           setUnread(false)
         }}
-        aria-label={unread ? 'Notifications, 1 unread' : 'Notifications'}
+        aria-label={unread ? `Notifications, ${NOTIFICATIONS.length} unread` : 'Notifications'}
         aria-expanded={open}
         className={cn('relative flex h-10 w-10 items-center justify-center rounded-lg text-body hover:bg-slate-100', focusRing)}
       >
@@ -43,19 +50,17 @@ function NotificationsMenu() {
       {open && (
         <div className="absolute right-0 z-50 mt-2 w-72 rounded-xl border border-line bg-white p-2 shadow-lg">
           <p className="px-2 py-1.5 text-xs font-semibold tracking-wide text-muted uppercase">Notifications</p>
-          <Link
-            to="/jobs"
-            onClick={close}
-            className={cn('flex gap-3 rounded-lg p-2 hover:bg-slate-50', focusRing)}
-          >
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-pale text-primary">
-              <Sparkles size={16} aria-hidden="true" />
-            </span>
-            <span className="text-sm text-navy">
-              New AI-matched jobs are ready for you.
-              <span className="mt-0.5 block text-xs text-muted">Just now</span>
-            </span>
-          </Link>
+          {NOTIFICATIONS.map(({ id, icon: Icon, text, time, to }) => (
+            <Link key={id} to={to} onClick={close} className={cn('flex gap-3 rounded-lg p-2 hover:bg-slate-50', focusRing)}>
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-pale text-primary">
+                <Icon size={16} aria-hidden="true" />
+              </span>
+              <span className="text-sm text-navy">
+                {text}
+                <span className="mt-0.5 block text-xs text-muted">{time}</span>
+              </span>
+            </Link>
+          ))}
         </div>
       )}
     </div>
@@ -90,6 +95,13 @@ function UserMenu({ user, onSignOut }) {
             <p className="truncate text-xs text-muted">{user.email}</p>
           </div>
           <div className="my-1 border-t border-line" />
+          <Link
+            to="/profile"
+            onClick={close}
+            className={cn('flex items-center gap-2 rounded-lg px-2 py-2 text-sm text-navy hover:bg-slate-50', focusRing)}
+          >
+            <User size={16} aria-hidden="true" /> View profile
+          </Link>
           <Link
             to="/dashboard"
             onClick={close}
