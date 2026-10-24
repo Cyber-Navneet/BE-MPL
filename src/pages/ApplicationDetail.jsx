@@ -4,13 +4,55 @@ import { ArrowLeft, ClipboardList, Ellipsis, Eye, SendHorizontal } from 'lucide-
 import { CompanyLogo } from '../components/jobs/JobBadges.jsx'
 import JobDetailsDrawer from '../components/jobs/JobDetailsDrawer.jsx'
 import AssessmentInviteCard from '../components/applications/AssessmentInviteCard.jsx'
+import LifecycleBadge from '../components/applications/LifecycleBadge.jsx'
 import { useAssessmentSync } from '../hooks/useAssessmentSync.js'
 import { useDismiss } from '../hooks/useDismiss.js'
 import { useJobActions } from '../hooks/useJobActions.js'
-import { addApplicationNote, applicationsStore, assessmentStatus, assessmentsStore, findJob } from '../utils/applicationStore.js'
+import {
+  NEXT_STAGES,
+  REVIEW_STAGES,
+  addApplicationNote,
+  applicationStatus,
+  applicationsStore,
+  assessmentStatus,
+  assessmentsStore,
+  findJob,
+  setApplicationStage,
+} from '../utils/applicationStore.js'
 import { formatDate, formatDateTime } from '../utils/formatTime.js'
 
 const NOTE_LIMIT = 500
+
+// Simulates the recruiter's side, one explicit click at a time. Demo only.
+function DemoControls({ status, onChange }) {
+  const next = NEXT_STAGES[status] ?? []
+  const finished = status === 'Rejected' || status === 'Offer Received'
+
+  return (
+    <div className="rounded-xl border border-dashed border-line bg-slate-50 p-4">
+      <p className="text-sm font-semibold text-navy">Demo controls</p>
+      <p className="mt-0.5 text-xs text-muted">Simulate the recruiter’s next step. Nothing is sent anywhere.</p>
+      {next.length > 0 ? (
+        <div className="mt-3 flex flex-wrap gap-2">
+          {next.map((stage) => (
+            <button
+              key={stage}
+              type="button"
+              onClick={() => onChange(stage)}
+              className="h-9 rounded-lg border border-line bg-white px-3 text-sm font-medium text-navy hover:bg-pale hover:text-primary focus-visible:outline-2 focus-visible:outline-primary"
+            >
+              Mark as {REVIEW_STAGES[stage]}
+            </button>
+          ))}
+        </div>
+      ) : (
+        <p className="mt-3 text-sm text-body">
+          {finished ? 'This application has reached a final outcome.' : 'Recruiter steps unlock once the assessment is completed.'}
+        </p>
+      )}
+    </div>
+  )
+}
 
 function ActionsMenu({ assessmentPath, onViewJob }) {
   const [open, setOpen] = useState(false)
@@ -86,6 +128,13 @@ export default function ApplicationDetail() {
     )
   }
 
+  const status = applicationStatus(application, assessment, now)
+
+  const changeStage = (stage) => {
+    setApplicationStage(application.id, stage)
+    notify(`Status updated to ${REVIEW_STAGES[stage]} (demo).`, 'success')
+  }
+
   const sendNote = () => {
     const text = note.trim()
     if (!text) return
@@ -109,11 +158,15 @@ export default function ApplicationDetail() {
             <h2 className="truncate text-lg font-bold text-navy sm:text-2xl">{job.company}</h2>
             <p className="truncate text-[15px] text-muted">{job.title}</p>
           </div>
+          <LifecycleBadge status={status} className="hidden sm:inline-flex" />
           {assessment && <ActionsMenu assessmentPath={`/assessments/${assessment.id}`} onViewJob={() => setJobOpen(true)} />}
         </div>
 
         <div className="space-y-6 px-4 py-6 sm:px-6">
           <p className="text-center text-sm text-muted">{formatDate(application.appliedAt)}</p>
+          <div className="flex justify-center sm:hidden">
+            <LifecycleBadge status={status} />
+          </div>
           <p className="max-w-xl rounded-2xl rounded-tl-sm bg-slate-100 px-4 py-3 text-[15px] text-navy">
             You applied for <strong>{job.title}</strong> at {job.company}. This is a demo: the application is recorded on
             this device only.
@@ -121,6 +174,7 @@ export default function ApplicationDetail() {
           {assessment && (
             <AssessmentInviteCard assessment={assessment} status={assessmentStatus(assessment, now)} now={now} />
           )}
+          <DemoControls status={status} onChange={changeStage} />
           {(application.notes ?? []).map((item) => (
             <div key={item.id} className="ml-auto max-w-xl text-right">
               <p className="inline-block rounded-2xl rounded-tr-sm bg-primary px-4 py-3 text-left text-[15px] whitespace-pre-wrap text-white">

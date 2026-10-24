@@ -8,6 +8,9 @@ import LoginPage from './pages/LoginPage.jsx'
 import SignupPage from './pages/SignupPage.jsx'
 import Dashboard from './pages/Dashboard.jsx'
 import JobDiscovery from './pages/JobDiscovery.jsx'
+import JobDetails from './pages/JobDetails.jsx'
+import Profile from './pages/Profile.jsx'
+import Settings from './pages/Settings.jsx'
 import ResumeAnalysis from './pages/ResumeAnalysis.jsx'
 import Applications from './pages/Applications.jsx'
 import ApplicationDetail from './pages/ApplicationDetail.jsx'
@@ -30,6 +33,9 @@ export default function App() {
         <Route element={<AppLayout />}>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="jobs" element={<JobDiscovery />} />
+          <Route path="jobs/:jobId" element={<JobDetails />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="settings" element={<Settings />} />
           <Route path="resume" element={<ResumeAnalysis />} />
           <Route path="applications" element={<Applications />} />
           <Route path="applications/:applicationId" element={<ApplicationDetail />} />

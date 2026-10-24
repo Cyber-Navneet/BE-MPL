@@ -8,6 +8,7 @@ import ApplicationFiltersPanel from '../components/applications/ApplicationFilte
 import ApplicationStatusModal from '../components/applications/ApplicationStatusModal.jsx'
 import ApplicationChatPanel from '../components/applications/ApplicationChatPanel.jsx'
 import DeleteApplicationDialog from '../components/applications/DeleteApplicationDialog.jsx'
+import SubmittedApplications from '../components/applications/SubmittedApplications.jsx'
 import { useApplications } from '../hooks/useApplications.js'
 
 const primaryButtonClasses =
@@ -54,6 +55,8 @@ export default function Applications() {
     <div className="mx-auto max-w-[1180px]">
       <h1 className="text-2xl font-bold tracking-tight text-navy sm:text-[28px]">Applications</h1>
       <p className="mt-1.5 text-[15px] text-muted">Track your submitted applications and take the next step.</p>
+
+      <SubmittedApplications />
 
       <div className="mt-6 space-y-6">
         <ApplicationToolbar
