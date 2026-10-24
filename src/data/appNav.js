@@ -6,7 +6,7 @@ export const SIDEBAR_NAV = [
   { label: 'My Profile', icon: User },
   { label: 'Resume Analysis', icon: FileText, to: '/resume' },
   { label: 'Job Discovery', icon: Search, to: '/jobs' },
-  { label: 'Applications', icon: Send },
+  { label: 'Applications', icon: Send, to: '/applications' },
   { label: 'Assessment', icon: ClipboardList },
   { label: 'Settings', icon: Settings },
 ]

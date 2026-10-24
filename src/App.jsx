@@ -9,6 +9,7 @@ import SignupPage from './pages/SignupPage.jsx'
 import Dashboard from './pages/Dashboard.jsx'
 import JobDiscovery from './pages/JobDiscovery.jsx'
 import ResumeAnalysis from './pages/ResumeAnalysis.jsx'
+import Applications from './pages/Applications.jsx'
 import NotFound from './pages/NotFound.jsx'
 
 export default function App() {
@@ -27,6 +28,7 @@ export default function App() {
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="jobs" element={<JobDiscovery />} />
           <Route path="resume" element={<ResumeAnalysis />} />
+          <Route path="applications" element={<Applications />} />
         </Route>
       </Route>
     </Routes>
