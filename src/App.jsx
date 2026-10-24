@@ -13,6 +13,8 @@ import Profile from './pages/Profile.jsx'
 import Settings from './pages/Settings.jsx'
 import ResumeAnalysis from './pages/ResumeAnalysis.jsx'
 import Applications from './pages/Applications.jsx'
+import RecruiterApplications from './pages/RecruiterApplications.jsx'
+import RoleSwitch from './components/RoleSwitch.jsx'
 import ApplicationDetail from './pages/ApplicationDetail.jsx'
 import Assessments from './pages/Assessments.jsx'
 import AssessmentPage from './pages/AssessmentPage.jsx'
@@ -37,7 +39,10 @@ export default function App() {
           <Route path="profile" element={<Profile />} />
           <Route path="settings" element={<Settings />} />
           <Route path="resume" element={<ResumeAnalysis />} />
-          <Route path="applications" element={<Applications />} />
+          <Route
+            path="applications"
+            element={<RoleSwitch student={<Applications />} recruiter={<RecruiterApplications />} />}
+          />
           <Route path="applications/:applicationId" element={<ApplicationDetail />} />
           <Route path="assessments" element={<Assessments />} />
           <Route path="assessments/:assessmentId" element={<AssessmentPage />} />
