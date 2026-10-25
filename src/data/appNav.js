@@ -14,9 +14,9 @@ export const SIDEBAR_NAV = [
 // Recruiters see their own navigation; recruiter pages that are not built yet show "coming soon".
 export const RECRUITER_SIDEBAR_NAV = [
   { label: 'Dashboard', icon: House, to: '/dashboard' },
-  { label: 'Company Profile', icon: User },
+  { label: 'Company Profile', icon: User, to: '/recruiter/company-profile' },
   { label: 'My Jobs', icon: WandSparkles, to: '/recruiter/jobs' },
   { label: 'Applications', icon: Send, to: '/applications' },
   { label: 'Assessment', icon: ClipboardList },
-  { label: 'Settings', icon: Settings },
+  { label: 'Settings', icon: Settings, to: '/recruiter/settings' },
 ]

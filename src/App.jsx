@@ -24,6 +24,8 @@ import MyJobs from './pages/recruiter/MyJobs.jsx'
 import JobEditor from './pages/recruiter/JobEditor.jsx'
 import RecruiterJobDetails from './pages/recruiter/RecruiterJobDetails.jsx'
 import JobPipelinePage from './pages/recruiter/JobPipelinePage.jsx'
+import CompanyProfile from './pages/recruiter/CompanyProfile.jsx'
+import RecruiterSettings from './pages/recruiter/RecruiterSettings.jsx'
 
 export default function App() {
   return (
@@ -58,6 +60,8 @@ export default function App() {
             <Route path="jobs/:jobId" element={<RecruiterJobDetails />} />
             <Route path="jobs/:jobId/edit" element={<JobEditor />} />
             <Route path="jobs/:jobId/pipeline" element={<JobPipelinePage />} />
+            <Route path="company-profile" element={<CompanyProfile />} />
+            <Route path="settings" element={<RecruiterSettings />} />
           </Route>
         </Route>
       </Route>
