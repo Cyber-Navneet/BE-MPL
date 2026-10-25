@@ -6,7 +6,7 @@ export const ROLES = ['student', 'recruiter']
 
 const DEMO_ACCOUNTS = [
   { role: 'student', name: 'Aarav Sharma', email: 'student@talentforge.demo', password: 'Student@123' },
-  { role: 'recruiter', name: 'Demo Recruiter', email: 'recruiter@talentforge.demo', password: 'Recruiter@123' },
+  { role: 'recruiter', name: 'Preeti Singh', email: 'recruiter@talentforge.demo', password: 'Recruiter@123' },
 ]
 
 // Accounts created via the sign-up form. Kept in memory only (cleared on page

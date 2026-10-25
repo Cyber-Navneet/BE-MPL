@@ -1,7 +1,6 @@
 import { useCallback, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
-import { ArrowRight, Briefcase, ClipboardList, Send, Sparkles, User } from 'lucide-react'
-import Button from '../components/Button.jsx'
+import { ClipboardList, Send, Sparkles, User } from 'lucide-react'
 import NextStepBanner from '../components/dashboard/NextStepBanner.jsx'
 import SummaryCard from '../components/dashboard/SummaryCard.jsx'
 import SummaryDialog from '../components/dashboard/SummaryDialog.jsx'
@@ -13,40 +12,9 @@ import ResumeAnalysisDialog from '../components/dashboard/ResumeAnalysisDialog.j
 import { DEMO_PROFILE } from '../data/dashboard.js'
 import { useAuth } from '../hooks/useAuth.js'
 import { useHomeDashboard } from '../hooks/useHomeDashboard.js'
-import { firstName, greetingFor } from '../utils/dashboardUtils.js'
+import RecruiterDashboard from './recruiter/RecruiterDashboard.jsx'
 
 const plural = (count, word) => `${count} ${word}${count === 1 ? '' : 's'}`
-
-// The recruiter dashboard is not built yet; it shows the account details in the meantime.
-function RecruiterHome({ user }) {
-  return (
-    <div className="mx-auto max-w-[1180px]">
-      <h1 className="text-3xl font-bold tracking-tight text-navy">Welcome, {user.name}</h1>
-      <p className="mt-2 text-muted">Your job postings, candidate rankings and hiring analytics will appear here.</p>
-      <section
-        aria-label="Account details"
-        className="mt-8 max-w-xl rounded-xl border border-line bg-white p-6 shadow-[0_1px_3px_rgba(16,25,46,0.06)]"
-      >
-        <dl className="grid gap-4 sm:grid-cols-[8rem_1fr]">
-          <dt className="text-sm text-muted">Name</dt>
-          <dd className="font-medium text-navy">{user.name}</dd>
-          <dt className="text-sm text-muted">Email</dt>
-          <dd className="font-medium break-all text-navy">{user.email}</dd>
-          <dt className="text-sm text-muted">Role</dt>
-          <dd>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-pale px-3 py-1 text-sm font-medium text-primary">
-              <Briefcase size={14} aria-hidden="true" />
-              Recruiter
-            </span>
-          </dd>
-        </dl>
-      </section>
-      <Button to="/jobs" size="sm" className="mt-6">
-        Explore Job Discovery <ArrowRight size={16} aria-hidden="true" />
-      </Button>
-    </div>
-  )
-}
 
 // Student home. Every interaction (dialogs, filters, expand, apply) stays on this page;
 // all data is fictional and saved in this browser only.
@@ -83,7 +51,7 @@ function StudentHome({ email }) {
         </span>
         <div className="min-w-0">
           <h1 className="text-2xl font-bold tracking-tight text-home-ink sm:text-[32px]">
-            {greetingFor()}, {firstName(DEMO_PROFILE.name)}!
+            Welcome back, {DEMO_PROFILE.name} <span aria-hidden="true">👋</span>
           </h1>
           <p className="mt-1 text-[15px] text-home-muted sm:text-lg">Here&apos;s your career progress at a glance.</p>
         </div>
@@ -155,5 +123,5 @@ function StudentHome({ email }) {
 // Rendered inside AppLayout, which provides the navbar (with sign out) and sidebar.
 export default function Dashboard() {
   const { user } = useAuth()
-  return user.role === 'recruiter' ? <RecruiterHome user={user} /> : <StudentHome email={user.email} />
+  return user.role === 'recruiter' ? <RecruiterDashboard user={user} /> : <StudentHome email={user.email} />
 }

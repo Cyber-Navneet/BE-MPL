@@ -17,7 +17,7 @@ const hoursAgo = (hours) => new Date(Date.now() - hours * HOUR_MS).toISOString()
 
 // Six of eight fields filled, so the profile is 75% complete.
 export const DEMO_PROFILE = {
-  name: 'Alex Morgan',
+  name: 'Aarav Sharma',
   fields: [
     { label: 'Full name', value: 'Alex Morgan' },
     { label: 'Email', value: 'alex.morgan@example.com' },

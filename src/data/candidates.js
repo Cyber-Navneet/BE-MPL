@@ -6,8 +6,8 @@ export const STAGES = [
   { id: 'applied', label: 'Applied', dot: 'bg-blue-600' },
   { id: 'assessment', label: 'Assessments', dot: 'bg-yellow-400' },
   { id: 'interview', label: 'Tech. Interview', dot: 'bg-orange-500' },
-  { id: 'offer', label: 'Offer', dot: 'bg-orange-500' },
-  { id: 'hired', label: 'Hired', dot: 'bg-orange-500' },
+  { id: 'offer', label: 'Offer', dot: 'bg-purple-500' },
+  { id: 'hired', label: 'Hired', dot: 'bg-green-500' },
 ]
 export const REJECTED_STAGE = { id: 'rejected', label: 'Rejected', dot: 'bg-red-500' }
 

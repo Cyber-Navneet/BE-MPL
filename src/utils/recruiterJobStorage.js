@@ -23,7 +23,7 @@ const toDateInput = (timestamp) => {
 }
 
 // Seeded PRNG so every seeded applicant is the same on every machine.
-function seededRandom(seed) {
+export function seededRandom(seed) {
   let state = seed >>> 0
   return () => {
     state = (state + 0x6d2b79f5) >>> 0

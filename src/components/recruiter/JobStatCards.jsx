@@ -3,7 +3,7 @@ import { ArrowRight, BriefcaseBusiness, Gauge, MailCheck, Users } from 'lucide-r
 const cardClasses =
   'flex min-h-40 flex-col rounded-2xl bg-linear-to-b from-home-gradient-from to-primary p-5 text-white shadow-[0_8px_24px_rgba(36,99,245,0.18)] sm:p-6'
 
-function StatCard({ icon: Icon, label, value, unit, badge, footer }) {
+export function StatCard({ icon: Icon, label, value, unit, badge, footer }) {
   return (
     <section aria-label={label} className={cardClasses}>
       <h2 className="flex items-center gap-3 text-base font-medium sm:text-lg">
