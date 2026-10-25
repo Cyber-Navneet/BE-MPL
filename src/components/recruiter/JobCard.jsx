@@ -17,7 +17,7 @@ export default function JobCard({ job, applicants, now, onAction }) {
   const workModeLocation = [job.workMode, job.location].filter(Boolean).join(' • ')
 
   return (
-    <article aria-labelledby={`${job.id}-title`} className="rounded-2xl border border-line bg-white p-4 sm:p-6 lg:p-8">
+    <article aria-labelledby={`${job.id}-title`} className="rounded-2xl border border-line bg-white p-4 transition duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-[0_8px_24px_rgba(36,99,245,0.12)] sm:p-6 lg:p-8">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
         <span className="hidden h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-selected text-primary sm:flex">
           <Icon size={26} aria-hidden="true" />
