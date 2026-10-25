@@ -1,4 +1,4 @@
-import { Banknote, BriefcaseBusiness, Building2, Laptop, UserRound, Video } from 'lucide-react'
+import { Banknote, BriefcaseBusiness, Building2, FileText, Laptop, UserRound, Video } from 'lucide-react'
 import { formatSalary } from '../../utils/jobMetrics.js'
 import { formatClock } from '../../utils/recruiterDashboardMetrics.js'
 import { cn } from '../../utils/cn.js'
@@ -18,12 +18,14 @@ const STATE_PILLS = {
   Cancelled: 'bg-slate-100 text-slate-600',
 }
 
-// Every interview offers "Meet"; it turns blue once the meeting time arrives.
-const action = { label: 'Meet', icon: Video }
+// Completed interviews offer "Details"; the rest offer "Meet", which turns blue once the meeting time arrives.
+const MEET = { label: 'Meet', icon: Video }
+const DETAILS = { label: 'Details', icon: FileText }
 
 export default function InterviewCard({ interview, state, onAction }) {
   const { job } = interview
   const salary = formatSalary(job)
+  const action = state === 'Completed' ? DETAILS : MEET
   const ActionIcon = action.icon
   const meta = [
     { icon: Building2, text: job.location },

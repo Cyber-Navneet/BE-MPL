@@ -65,6 +65,8 @@ export default function UpcomingInterviews({ interviews, now: openedAt, selected
     setJobId('')
   }
 
+  // "Meet" opens the meeting link while the interview is scheduled or in progress; otherwise (including
+  // "Details" on completed interviews) it opens the interview details dialog.
   const handleAction = (interview) => {
     const state = interviewState(interview, now)
     if (interview.type === 'Video' && interview.meetingUrl && (state === 'Scheduled' || state === 'In progress')) {
