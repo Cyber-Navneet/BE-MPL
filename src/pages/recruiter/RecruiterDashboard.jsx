@@ -32,7 +32,7 @@ export default function RecruiterDashboard({ user }) {
   const [selectedDay, setSelectedDay] = useState(() => startOfDay(now))
 
   const { jobs, applicants } = useRecruiterJobs()
-  const interviews = useRecruiterInterviews(jobs, applicants)
+  const interviews = useRecruiterInterviews(jobs, applicants, user.name || RECRUITER.name)
 
   const weekStart = startOfWeek(selectedDay)
   const currentWeek = weekStart === startOfWeek(now)

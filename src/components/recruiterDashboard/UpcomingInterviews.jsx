@@ -132,11 +132,15 @@ export default function UpcomingInterviews({ interviews, now: openedAt, selected
         </div>
       </div>
 
-      <div className="mt-2 overflow-x-auto rounded-2xl bg-selected p-2">
+      <div className="mt-2 overflow-x-auto rounded-xl bg-selected p-1.5">
         <div role="group" aria-label="Interview date" className="grid min-w-[16rem] grid-cols-7 gap-0.5 sm:gap-1">
           {days.map((day) => {
             const selected = isSameDay(day, selectedDay)
             const count = matching.filter((item) => isSameDay(item.start, day)).length
+            // The dot marks days that still have upcoming interviews, not past ones.
+            const upcoming = matching.filter(
+              (item) => isSameDay(item.start, day) && ['Scheduled', 'In progress'].includes(interviewState(item, now)),
+            ).length
             const date = new Date(day)
             return (
               <button
@@ -146,16 +150,16 @@ export default function UpcomingInterviews({ interviews, now: openedAt, selected
                 aria-pressed={selected}
                 aria-label={`${formatLongDate(day)}${day === today ? ' (today)' : ''}, ${plural(count, 'interview')}`}
                 className={cn(
-                  'flex min-h-16 flex-col items-center justify-center rounded-xl py-2 transition-colors focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary',
+                  'flex min-h-12 flex-col items-center justify-center rounded-lg py-1 transition-colors focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary',
                   selected ? 'bg-primary text-white shadow-sm' : 'text-navy hover:bg-white/70',
                   !selected && day === today && 'ring-1 ring-primary/40 ring-inset',
                 )}
               >
-                <span className={cn('text-xs sm:text-sm', selected ? 'text-white' : 'text-body')}>
+                <span className={cn('text-[11px] sm:text-xs', selected ? 'text-white' : 'text-body')}>
                   {date.toLocaleDateString('en-IN', { weekday: 'short' })}
                 </span>
-                <span className="mt-1 text-base font-semibold sm:text-lg">{date.getDate()}</span>
-                <span className={cn('mt-1 h-1.5 w-1.5 rounded-full', count ? (selected ? 'bg-white' : 'bg-primary') : 'bg-transparent')} aria-hidden="true" />
+                <span className="mt-0.5 text-sm font-semibold sm:text-base">{date.getDate()}</span>
+                <span className={cn('mt-0.5 h-1 w-1 rounded-full', upcoming ? (selected ? 'bg-white' : 'bg-primary') : 'bg-transparent')} aria-hidden="true" />
               </button>
             )
           })}
