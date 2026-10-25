@@ -16,6 +16,9 @@ export const RECRUITER = {
   hiringFocus: ['Engineering', 'Data', 'Design'],
 }
 
+// The recruiter's hiring team, used by the Settings page team list.
+export const INTERVIEWERS = ['Rahul Verma', 'Anjali Rao', 'Deepak Nair', 'Farah Qureshi', 'Mohit Arora', 'Preeti Singh']
+
 export const INTERVIEW_STATUSES = ['Scheduled', 'Completed', 'Cancelled']
 
 // Interview slots as [hour, minute, durationMinutes], in local time.
