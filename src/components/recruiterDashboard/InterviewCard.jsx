@@ -1,4 +1,4 @@
-import { Banknote, BriefcaseBusiness, Building2, Eye, Laptop, MapPin, PencilLine, Phone, UserRound, Video } from 'lucide-react'
+import { Banknote, BriefcaseBusiness, Building2, Laptop, UserRound, Video } from 'lucide-react'
 import { formatSalary } from '../../utils/jobMetrics.js'
 import { formatClock } from '../../utils/recruiterDashboardMetrics.js'
 import { cn } from '../../utils/cn.js'
@@ -18,21 +18,12 @@ const STATE_PILLS = {
   Cancelled: 'bg-slate-100 text-slate-600',
 }
 
-// Upcoming video interviews offer "Meet", phone ones "Call"; everything else opens the details.
-function interviewAction(interview, state) {
-  if (state === 'Scheduled' || state === 'In progress') {
-    if (interview.type === 'Video') return { label: 'Meet', icon: Video }
-    if (interview.type === 'Phone') return { label: 'Call', icon: Phone }
-    return { label: 'Details', icon: MapPin }
-  }
-  if (state === 'Awaiting update') return { label: 'Update', icon: PencilLine }
-  return { label: 'Details', icon: Eye }
-}
+// Every interview offers "Meet"; it turns blue once the meeting time arrives.
+const action = { label: 'Meet', icon: Video }
 
 export default function InterviewCard({ interview, state, onAction }) {
   const { job } = interview
   const salary = formatSalary(job)
-  const action = interviewAction(interview, state)
   const ActionIcon = action.icon
   const meta = [
     { icon: Building2, text: job.location },

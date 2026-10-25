@@ -8,10 +8,9 @@ import {
   FUNNEL_STAGES,
   INTERVIEW_SLOTS,
   INTERVIEW_STATUSES,
-  INTERVIEWERS,
   MONTHS,
+  RECRUITER,
 } from '../data/recruiterDashboardData.js'
-import { INTERVIEW_TYPES } from '../data/candidates.js'
 import { createLocalStore } from './localStore.js'
 import { seededRandom } from './recruiterJobStorage.js'
 
@@ -111,9 +110,9 @@ export function buildInterviews(jobs, applicants, now = Date.now()) {
       const job = jobsById.get(app.jobId)
       if (!job || job.status === 'Draft') return
       const random = seededRandom(hashString(app.id))
-      const pick = (list) => list[Math.floor(random() * list.length)]
-      const type = random() < 0.7 ? INTERVIEW_TYPES[0] : random() < 0.6 ? INTERVIEW_TYPES[1] : INTERVIEW_TYPES[2]
-      const interviewerName = pick(INTERVIEWERS)
+      // Every interview is a video meeting run by the recruiter.
+      const type = 'Video'
+      const interviewerName = RECRUITER.name
 
       if (app.stage === 'Technical Interview' && job.status === 'Open') {
         const roll = random()
