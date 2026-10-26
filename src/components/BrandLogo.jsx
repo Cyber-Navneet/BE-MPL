@@ -7,7 +7,7 @@ export default function BrandLogo({ boxed = false, className }) {
   return (
     <Link
       to="/"
-      aria-label="TalentForge home"
+      aria-label="TalentAtharva home"
       className={cn('inline-flex items-center gap-2.5 rounded-md focus-visible:outline-2 focus-visible:outline-primary', className)}
     >
       {boxed ? (
@@ -17,7 +17,7 @@ export default function BrandLogo({ boxed = false, className }) {
       ) : (
         <Brain size={20} className="text-primary" aria-hidden="true" />
       )}
-      <span className={cn('font-bold tracking-tight text-navy', boxed ? 'text-xl' : 'text-base')}>TalentForge</span>
+      <span className={cn('font-bold tracking-tight text-navy', boxed ? 'text-xl' : 'text-base')}>TalentAtharva</span>
     </Link>
   )
 }

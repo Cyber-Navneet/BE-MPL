@@ -12,13 +12,13 @@ export default function BrandingPanel() {
     <aside className="bg-[linear-gradient(155deg,#214ac7_0%,#1d419d_50%,#18336d_100%)] px-5 py-8 text-white md:min-h-screen md:w-[49.3%] md:shrink-0 md:px-7 md:pt-12">
       <Link
         to="/"
-        aria-label="TalentForge home"
+        aria-label="TalentAtharva home"
         className="inline-flex items-center gap-3 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
       >
         <span className="flex h-[42px] w-[42px] items-center justify-center rounded-[10px] bg-white/15">
           <Brain size={24} aria-hidden="true" />
         </span>
-        <span className="text-[1.375rem] font-bold tracking-tight">TalentForge</span>
+        <span className="text-[1.375rem] font-bold tracking-tight">TalentAtharva</span>
       </Link>
 
       <div className="mt-8 md:mt-[14vh]">
